@@ -5,3 +5,7 @@ export 'faq_list.dart';
 export 'responsive.dart';
 export 'testimony_list.dart';
 export 'vertical_icon_button.dart';
+export 'signin_rp.dart';
+export 'signin_user.dart';
+export 'register_rp.dart';
+export 'register_user.dart';

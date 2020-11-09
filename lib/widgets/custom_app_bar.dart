@@ -132,7 +132,12 @@ class _CustomAppBarDesktop extends StatelessWidget {
                 ),
                 _AppBarButton(
                   title: 'Login User',
-                  onTap: () => print('KIDS'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
                 ),
                 _AppBarButton(
                   title: 'Login RP',

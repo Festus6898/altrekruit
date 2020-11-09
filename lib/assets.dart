@@ -1,6 +1,5 @@
 class Assets {
   static const String _images = 'images/';
-  static const String _videos = 'videos/';
 
   static const String sintel = '${_images}sintel.jpg';
   static const String sintelTitle = '${_images}sintel_title.png';
@@ -17,4 +16,7 @@ class Assets {
   static const String testimony1 = '${_images}testimony1.jpg';
   static const String testimony2 = '${_images}testimony2.jpg';
   static const String testimony3 = '${_images}testimony3.jpg';
+
+  static const String login1 = '${_images}recruits.jpg';
+  static const String login2 = '${_images}recruits2.png';
 }

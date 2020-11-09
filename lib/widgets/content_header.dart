@@ -197,7 +197,7 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                       color: Colors.white,
                       icon: const Icon(Icons.info_outline, size: 30.0),
                       label: const Text(
-                        'Register as Resource Person',
+                        'Enroll as Resource Person',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w600,
