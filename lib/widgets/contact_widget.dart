@@ -30,7 +30,6 @@ class _ContactsMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 200.0,
-//      color: Color(0xFF41004D),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
