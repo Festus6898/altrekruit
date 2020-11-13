@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mera_app/screens/screens.dart';
 import 'package:mera_app/widgets/responsive.dart';
 
-class CustomAppBar extends StatelessWidget {
+class InitialCustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -131,18 +131,21 @@ class _CustomAppBarDesktop extends StatelessWidget {
                   onPressed: () => print('Search'),
                 ),
                 _AppBarButton(
-                  title: 'Profile',
+                  title: 'Login User',
                   onTap: () {
-                    print("My Profile");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
                   },
                 ),
                 _AppBarButton(
-                  title: 'Logout',
+                  title: 'Login RP',
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => InitialNavigateScreen()),
+                          builder: (context) => LoginResourceScreen()),
                     );
                   },
                 ),

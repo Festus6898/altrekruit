@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:mera_app/widgets/responsive.dart';
-import 'home_screen.dart';
+import 'package:mera_app/widgets/widgets.dart';
+import 'package:mera_app/screens/screens.dart';
 
-class NavigateScreen extends StatefulWidget {
+class InitialNavigateScreen extends StatefulWidget {
   @override
-  _NavigateScreenState createState() => _NavigateScreenState();
+  _InitialNavigateScreenState createState() => _InitialNavigateScreenState();
 }
 
-class _NavigateScreenState extends State<NavigateScreen> {
+class _InitialNavigateScreenState extends State<InitialNavigateScreen> {
   final List<Widget> _screens = [
-    HomeScreen(),
+    InitialHomeScreen(),
+    LoginScreen(),
     Scaffold(),
-    Scaffold(),
-    Scaffold(),
+    LoginResourceScreen(),
     Scaffold(),
   ];
 
   final Map<String, IconData> _icons = const {
     'Home': Icons.home,
-    'Profile': Icons.perm_identity,
+    'User SignIN': Icons.perm_identity,
     'Search': Icons.search,
-    'History': Icons.history_outlined,
+    'Resource SignIN': Icons.people_alt_outlined,
     'More': Icons.menu,
   };
 

@@ -111,7 +111,7 @@ final List<Content> originals = const [
       description:
           'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.'),
   Content(
-      name: 'for how long referral would be valid',
+      name: 'For how long referral would be valid',
       description:
           'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.'),
 ];

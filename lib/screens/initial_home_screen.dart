@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mera_app/datatemp/data.dart';
 import 'package:mera_app/widgets/widgets.dart';
 
-class HomeScreen extends StatefulWidget {
+class InitialHomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _InitialHomeScreenState createState() => _InitialHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _InitialHomeScreenState extends State<InitialHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         appBar: PreferredSize(
           preferredSize: Size(screenSize.width, 50.0),
-          child: CustomAppBar(),
+          child: InitialCustomAppBar(),
         ),
         body: CustomScrollView(
           slivers: [

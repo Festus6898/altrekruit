@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mera_app/assets.dart';
 import 'package:mera_app/models/content_model.dart';
 import 'package:mera_app/widgets/responsive.dart';
 import 'package:video_player/video_player.dart';
@@ -39,8 +40,8 @@ class _ContentHeaderMobile extends StatelessWidget {
           height: 500.0,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(featuredContent.imageUrl),
-              fit: BoxFit.cover,
+              image: AssetImage(Assets.login2),
+              fit: BoxFit.fitHeight,
             ),
           ),
         ),
@@ -68,17 +69,7 @@ class _ContentHeaderMobile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              VerticalIconButton(
-                icon: Icons.add,
-                title: 'List',
-                onTap: () => print('My List'),
-              ),
               _PlayButton(),
-              VerticalIconButton(
-                icon: Icons.info_outline,
-                title: 'Info',
-                onTap: () => print('Info'),
-              ),
             ],
           ),
         ),
@@ -100,67 +91,59 @@ class _ContentHeaderDesktop extends StatefulWidget {
 }
 
 class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
-  VideoPlayerController _videoController;
-  bool _isMuted = true;
+//  VideoPlayerController _videoController;
+//  bool _isMuted = true;
 
   @override
   void initState() {
     super.initState();
-    _videoController =
-        VideoPlayerController.network(widget.featuredContent.videoUrl)
-          ..initialize().then((_) => setState(() {}))
-          ..setVolume(0)
-          ..play();
+//    _videoController =
+//        VideoPlayerController.network(widget.featuredContent.videoUrl)
+//          ..initialize().then((_) => setState(() {}))
+//          ..setVolume(0)
+//          ..play();
   }
 
   @override
   void dispose() {
-    _videoController.dispose();
+    //_videoController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _videoController.value.isPlaying
-          ? _videoController.pause()
-          : _videoController.play(),
+      onTap: () {},
       child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
-          AspectRatio(
-            aspectRatio: _videoController.value.initialized
-                ? _videoController.value.aspectRatio
-                : 2.344,
-            child: _videoController.value.initialized
-                ? VideoPlayer(_videoController)
-                : Image.asset(
-                    widget.featuredContent.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: -1.0,
-            child: AspectRatio(
-              aspectRatio: _videoController.value.initialized
-                  ? _videoController.value.aspectRatio
-                  : 2.344,
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.black, Colors.transparent],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
+          Row(
+            children: [
+              Container(width: 100.0),
+              Expanded(
+                child: LimitedBox(
+                  maxHeight: 600,
+                  child: PageView(
+                    children: [
+                      CarouselSlider(
+                        carouselSlideImage: Assets.slide1,
+                      ),
+                      CarouselSlider(
+                        carouselSlideImage: Assets.slide2,
+                      ),
+                      CarouselSlider(
+                        carouselSlideImage: Assets.login1,
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
+              Container(width: 100.0),
+            ],
           ),
           Positioned(
-            left: 60.0,
-            right: 60.0,
+            left: 120.0,
+            right: 120.0,
             bottom: 150.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,9 +178,9 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                           const EdgeInsets.fromLTRB(25.0, 10.0, 30.0, 10.0),
                       onPressed: () => print('More Info'),
                       color: Colors.white,
-                      icon: const Icon(Icons.info_outline, size: 30.0),
+                      icon: const Icon(Icons.person_outline, size: 30.0),
                       label: const Text(
-                        'Enroll as Resource Person',
+                        'Enroll as Freshers',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w600,
@@ -205,20 +188,6 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                       ),
                     ),
                     const SizedBox(width: 20.0),
-                    if (_videoController.value.initialized)
-                      IconButton(
-                        icon: Icon(
-                          _isMuted ? Icons.volume_off : Icons.volume_up,
-                        ),
-                        color: Colors.white,
-                        iconSize: 30.0,
-                        onPressed: () => setState(() {
-                          _isMuted
-                              ? _videoController.setVolume(100)
-                              : _videoController.setVolume(0);
-                          _isMuted = _videoController.value.volume == 0;
-                        }),
-                      ),
                   ],
                 ),
               ],
@@ -239,12 +208,37 @@ class _PlayButton extends StatelessWidget {
           : const EdgeInsets.fromLTRB(25.0, 10.0, 30.0, 10.0),
       onPressed: () => print('Play'),
       color: Colors.white,
-      icon: const Icon(Icons.play_arrow, size: 30.0),
+      icon: const Icon(Icons.people_alt_outlined, size: 30.0),
       label: const Text(
-        'Register as Job Seeker',
+        'Enroll as Resource Person',
         style: TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+class CarouselSlider extends StatelessWidget {
+  final String carouselSlideImage;
+  CarouselSlider({this.carouselSlideImage});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Container(
+          height: 200,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              carouselSlideImage,
+              fit: BoxFit.fill,
+            ),
+          ),
         ),
       ),
     );

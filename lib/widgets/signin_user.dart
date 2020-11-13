@@ -1,4 +1,8 @@
+import 'dart:html';
+import 'dart:typed_data';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:flutter/material.dart';
+import 'package:mera_app/screens/screens.dart';
 
 class LogIn extends StatefulWidget {
   final Function onSignUpSelected;
@@ -146,10 +150,14 @@ class _LogInState extends State<LogIn> {
                       SizedBox(
                         height: 64,
                       ),
-                      RaisedButton(
-                        child: Text("Go Ahead".toUpperCase()),
-                        color: Colors.white,
-                        onPressed: () {},
+                      SizedBox(
+                        height: 30.0,
+                        width: 100.0,
+                        child: RaisedButton(
+                          child: Text("Go Ahead".toUpperCase()),
+                          color: Colors.white,
+                          onPressed: () => {},
+                        ),
                       ),
                       SizedBox(
                         height: 32,

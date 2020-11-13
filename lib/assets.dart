@@ -19,4 +19,8 @@ class Assets {
 
   static const String login1 = '${_images}recruits.jpg';
   static const String login2 = '${_images}recruits2.png';
+
+  static const String slide1 = '${_images}recruits3.png';
+  static const String slide2 = '${_images}recruits4.png';
+  static const String slide3 = '${_images}recruits5.png';
 }

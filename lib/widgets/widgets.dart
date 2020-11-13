@@ -9,3 +9,5 @@ export 'signin_rp.dart';
 export 'signin_user.dart';
 export 'register_rp.dart';
 export 'register_user.dart';
+export 'contact_widget.dart';
+export 'initial_custom_app_bar.dart';
