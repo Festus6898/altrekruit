@@ -2,7 +2,7 @@ class Assets {
   static const String _images = 'images/';
 
   static const String sintel = '${_images}sintel.jpg';
-  static const String sintelTitle = '${_images}sintel_title.png';
+  static const String sintelTitle = '${_images}titlemain.png';
   static const String testVideo = '${_images}test.mp4';
   static const String sintelVideoUrl =
       'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4';
@@ -20,7 +20,10 @@ class Assets {
   static const String login1 = '${_images}recruits.jpg';
   static const String login2 = '${_images}recruits2.png';
 
-  static const String slide1 = '${_images}recruits3.png';
-  static const String slide2 = '${_images}recruits4.png';
-  static const String slide3 = '${_images}recruits5.png';
+  static const String slide1 = '${_images}slider1.jpeg';
+  static const String slide2 = '${_images}slider2.jpeg';
+  static const String slide3 = '${_images}slider3.jpeg';
+  static const String slide4 = '${_images}slider4.jpeg';
+  static const String slide5 = '${_images}slider5.jpeg';
+  static const String slide6 = '${_images}slidernobg.png';
 }

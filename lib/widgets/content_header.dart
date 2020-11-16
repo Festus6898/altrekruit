@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mera_app/assets.dart';
 import 'package:mera_app/models/content_model.dart';
 import 'package:mera_app/widgets/responsive.dart';
-import 'package:video_player/video_player.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'vertical_icon_button.dart';
 
@@ -129,10 +129,10 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                         carouselSlideImage: Assets.slide1,
                       ),
                       CarouselSlider(
-                        carouselSlideImage: Assets.slide2,
+                        carouselSlideImage: Assets.slide4,
                       ),
                       CarouselSlider(
-                        carouselSlideImage: Assets.login1,
+                        carouselSlideImage: Assets.slide3,
                       ),
                     ],
                   ),
@@ -144,28 +144,36 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
           Positioned(
             left: 120.0,
             right: 120.0,
-            bottom: 150.0,
+            bottom: 100.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 250.0,
-                  child: Image.asset(widget.featuredContent.titleImageUrl),
+                  width: 320.0,
+                  child: Text(
+                    "ALTREKRUIT",
+                    style: GoogleFonts.laila(
+                      color: Colors.black,
+                      fontSize: 42.0,
+                      letterSpacing: 2.5,
+                      fontWeight: FontWeight.w800,
+                      shadows: [
+                        Shadow(
+                          color: Colors.purple,
+                          offset: Offset(2.0, 4.0),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 15.0),
+                //const SizedBox(height: 15.0),
                 Text(
                   widget.featuredContent.description,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
+                  style: GoogleFonts.laila(
+                    color: Colors.black,
+                    fontSize: 24.0,
                     fontWeight: FontWeight.w500,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black,
-                        offset: Offset(2.0, 4.0),
-                        blurRadius: 6.0,
-                      ),
-                    ],
                   ),
                 ),
                 const SizedBox(height: 20.0),
@@ -229,6 +237,9 @@ class CarouselSlider extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
+        color: Colors.black38,
+        shadowColor: Colors.deepPurple,
+        elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
           height: 200,

@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          scaffoldBackgroundColor: Colors.black),
+          scaffoldBackgroundColor: Colors.black87),
       home: InitialNavigateScreen(),
     );
   }

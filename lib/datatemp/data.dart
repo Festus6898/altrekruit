@@ -8,8 +8,7 @@ final Content splashContent = Content(
   imageUrl: Assets.sintel,
   titleImageUrl: Assets.sintelTitle,
   videoUrl: Assets.sintelVideoUrl,
-  description:
-      'The Better Platform to increase the chance of getting placed\nin some of the coveted Industries.',
+  description: 'Dream Job, Your Way',
 );
 
 final List<ResourcePerson> previews = [
