@@ -182,8 +182,8 @@ class _AppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: Colors.transparent,
-      hoverColor: Colors.blue,
+      color: Colors.green,
+      hoverColor: Colors.deepPurple,
       onPressed: onTap,
       child: AbsorbPointer(
         child: Text(

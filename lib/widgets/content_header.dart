@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mera_app/assets.dart';
 import 'package:mera_app/models/content_model.dart';
+import 'package:mera_app/screens/screens.dart';
 import 'package:mera_app/widgets/responsive.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -144,7 +145,7 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
           Positioned(
             left: 120.0,
             right: 120.0,
-            bottom: 100.0,
+            bottom: 150.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -153,17 +154,17 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                   child: Text(
                     "ALTREKRUIT",
                     style: GoogleFonts.laila(
-                      color: Colors.black,
+                      color: Colors.purple[800],
                       fontSize: 42.0,
                       letterSpacing: 2.5,
                       fontWeight: FontWeight.w800,
-                      shadows: [
-                        Shadow(
-                          color: Colors.purple,
-                          offset: Offset(2.0, 4.0),
-                          blurRadius: 6.0,
-                        ),
-                      ],
+//                      shadows: [
+//                        Shadow(
+//                          color: Colors.purple,
+//                          offset: Offset(2.0, 4.0),
+//                          blurRadius: 6.0,
+//                        ),
+//                      ],
                     ),
                   ),
                 ),
@@ -184,8 +185,15 @@ class __ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                     FlatButton.icon(
                       padding:
                           const EdgeInsets.fromLTRB(25.0, 10.0, 30.0, 10.0),
-                      onPressed: () => print('More Info'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      },
                       color: Colors.white,
+                      hoverColor: Colors.purple[800],
                       icon: const Icon(Icons.person_outline, size: 30.0),
                       label: const Text(
                         'Enroll as Freshers',
@@ -214,8 +222,14 @@ class _PlayButton extends StatelessWidget {
       padding: !Responsive.isDesktop(context)
           ? const EdgeInsets.fromLTRB(15.0, 5.0, 20.0, 5.0)
           : const EdgeInsets.fromLTRB(25.0, 10.0, 30.0, 10.0),
-      onPressed: () => print('Play'),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginResourceScreen()),
+        );
+      },
       color: Colors.white,
+      hoverColor: Colors.purple[800],
       icon: const Icon(Icons.people_alt_outlined, size: 30.0),
       label: const Text(
         'Enroll as Resource Person',

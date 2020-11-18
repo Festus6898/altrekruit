@@ -169,7 +169,8 @@ class _FaqListDesktop extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
-                          border: Border.all(color: Colors.red, width: 2.0),
+                          border:
+                              Border.all(color: Colors.teal[600], width: 5.0),
                         ),
                         child: Column(
                           children: [

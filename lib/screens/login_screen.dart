@@ -113,7 +113,8 @@ class __LoginMobileState extends State<_LoginMobile> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NavigateScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => InitialNavigateScreen()),
                     );
                   },
                 ),
@@ -234,7 +235,8 @@ class _LoginDesktopState extends State<_LoginDesktop> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NavigateScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => InitialNavigateScreen()),
                     );
                   },
                 ),

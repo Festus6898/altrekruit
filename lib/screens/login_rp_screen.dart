@@ -25,7 +25,7 @@ class _LoginMobile extends StatefulWidget {
 }
 
 class __LoginMobileState extends State<_LoginMobile> {
-  Option selectedOption = Option.LogIn;
+  Option selectedOption = Option.Signup;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +113,8 @@ class __LoginMobileState extends State<_LoginMobile> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NavigateScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => InitialNavigateScreen()),
                     );
                   },
                 ),
@@ -132,7 +133,7 @@ class _LoginDesktop extends StatefulWidget {
 }
 
 class _LoginDesktopState extends State<_LoginDesktop> {
-  Option selectedOption = Option.LogIn;
+  Option selectedOption = Option.Signup;
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +235,8 @@ class _LoginDesktopState extends State<_LoginDesktop> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NavigateScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => InitialNavigateScreen()),
                     );
                   },
                 ),

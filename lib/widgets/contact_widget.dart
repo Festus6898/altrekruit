@@ -180,8 +180,8 @@ class _ContactsDesktop extends StatelessWidget {
                 height: 140,
                 child: VerticalDivider(
                   color: Colors.purple[800],
-                  thickness: 2,
-                  indent: 20.0,
+                  thickness: 5,
+                  indent: 30.0,
                 ),
               ),
               Expanded(
