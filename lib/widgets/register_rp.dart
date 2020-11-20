@@ -1,7 +1,10 @@
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 import 'dart:typed_data';
+import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'package:mera_app/datatemp/data.dart';
 import 'package:mera_app/screens/screens.dart';
 
 class SignUpRP extends StatefulWidget {
@@ -18,13 +21,29 @@ class _SignUpRPState extends State<SignUpRP> {
   int testRadio1 = 0;
   Image pickedImage;
   Uint8List uploadedImage;
-  List<String> skillList = [
-    'Java',
-    'C++',
-    'AI',
-    'Python',
-    'Flutter',
-  ];
+  var _categoriesIndustryDrop = List<DropdownMenuItem>();
+  var _selectedValue;
+  var _selectedSkill1;
+  var _selectedSkill2;
+  var _selectedSkill3;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  _loadCategories() async {
+    industryDrop.forEach((category) {
+      setState(() {
+        _categoriesIndustryDrop.add(DropdownMenuItem(
+          child: Text(category),
+          value: category,
+        ));
+      });
+    });
+  }
+
   pickImage() async {
     /// You can set the parameter asUint8List to true
     /// to get only the bytes from the image
@@ -46,32 +65,31 @@ class _SignUpRPState extends State<SignUpRP> {
     }
   }
 
-  _startFilePicker() async {
-    InputElement uploadInput = FileUploadInputElement();
-    uploadInput.click();
+  showAlertDialog(BuildContext context) {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
 
-    uploadInput.onChange.listen((e) {
-      // read file content as dataURL
-      final files = uploadInput.files;
-      if (files.length == 1) {
-        final file = files[0];
-        FileReader reader = FileReader();
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Warning"),
+      content: Text("Minimum of two UNIQUE tech skills are required."),
+      actions: [
+        okButton,
+      ],
+    );
 
-        reader.onLoadEnd.listen((e) {
-          setState(() {
-            uploadedImage = reader.result;
-          });
-        });
-
-        reader.onError.listen((fileEvent) {
-          setState(() {
-            var option1Text = "Some Error occured while reading the file";
-          });
-        });
-
-        reader.readAsArrayBuffer(file);
-      }
-    });
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   _showOccupationDialog(BuildContext context) {
@@ -106,7 +124,7 @@ class _SignUpRPState extends State<SignUpRP> {
                         height: 40.0,
                       ),
                       Text(
-                        "Position I Uphold",
+                        "Designation",
                         style: TextStyle(
                           color: Colors.purple[800],
                           fontSize: 20,
@@ -124,7 +142,7 @@ class _SignUpRPState extends State<SignUpRP> {
                         height: 20.0,
                       ),
                       Text(
-                        "Reputed WorkSpace",
+                        "Current Workplace",
                         style: TextStyle(
                           color: Colors.purple[800],
                           fontSize: 20,
@@ -142,7 +160,7 @@ class _SignUpRPState extends State<SignUpRP> {
                         height: 20.0,
                       ),
                       Text(
-                        "Industrial Category",
+                        "Previous Workplace",
                         style: TextStyle(
                           color: Colors.purple[800],
                           fontSize: 20,
@@ -150,11 +168,33 @@ class _SignUpRPState extends State<SignUpRP> {
                         ),
                       ),
                       TextField(
-                        //controller: _categoryDescription,
+                        //controller: _categoryName,
                         decoration: InputDecoration(
-                          labelText: "Industry Category",
-                          hintText: "Enter Industry",
+                          labelText: "Previous Workplace",
+                          hintText: "Enter Workplace",
                         ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        "Industrial Category",
+                        style: TextStyle(
+                          color: Colors.purple[800],
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      DropdownButtonFormField(
+                        value: _selectedValue,
+                        items: _categoriesIndustryDrop,
+                        hint: Text("Select a category"),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedValue = value;
+                            print(_selectedValue.toString());
+                          });
+                        },
                       ),
                       SizedBox(
                         height: 30.0,
@@ -244,22 +284,46 @@ class _SignUpRPState extends State<SignUpRP> {
                           ),
                         ),
                         SizedBox(
-                          height: 20.0,
+                          height: 5.0,
                         ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: skillList.length,
-                          itemBuilder: (context, index) {
-                            return CheckboxListTile(
-                              value: this.testData,
-                              title: Text(skillList[index]),
-                              onChanged: (value) {
-                                setState(() {
-                                  this.testData = value;
-                                });
-                              },
-                            );
+                        DropDownField(
+                          onValueChanged: (dynamic value) {
+                            _selectedSkill1 = value;
                           },
+                          itemsVisibleInDropdown: 2,
+                          value: _selectedSkill1,
+                          required: false,
+                          hintText: 'Select Skill',
+                          labelText: '1st Skill',
+                          items: skillSet,
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        DropDownField(
+                          itemsVisibleInDropdown: 2,
+                          onValueChanged: (dynamic value) {
+                            _selectedSkill2 = value;
+                          },
+                          value: _selectedSkill2,
+                          required: false,
+                          hintText: 'Select Skill',
+                          labelText: '2nd Skill',
+                          items: skillSet,
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        DropDownField(
+                          onValueChanged: (dynamic value) {
+                            _selectedSkill3 = value;
+                          },
+                          itemsVisibleInDropdown: 2,
+                          value: _selectedSkill3,
+                          required: false,
+                          hintText: 'Select Skill',
+                          labelText: '3rd Skill',
+                          items: skillSet,
                         ),
                         SizedBox(
                           height: 20.0,
@@ -292,6 +356,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           onChanged: (int value) {
                             setState(() {
                               testRadio = value;
+                              print(testRadio);
                             });
                           },
                         ),
@@ -356,8 +421,14 @@ class _SignUpRPState extends State<SignUpRP> {
                                   borderRadius: BorderRadius.circular(5.0),
                                   side: BorderSide(color: Colors.black)),
                               onPressed: () {
-                                Navigator.pop(context);
-                                _showSocialDialog(context);
+                                if (_selectedSkill1 == _selectedSkill2 ||
+                                    _selectedSkill1 == _selectedSkill3 ||
+                                    _selectedSkill2 == _selectedSkill3) {
+                                  showAlertDialog(context);
+                                } else {
+                                  Navigator.pop(context);
+                                  _showSocialDialog(context);
+                                }
                               },
                               child: Text(
                                 "Next",

@@ -10,7 +10,16 @@ final Content splashContent = Content(
   videoUrl: Assets.sintelVideoUrl,
   description: 'Dream Job, Your Way',
 );
-
+final List<String> industryDrop = ['Software/IT', 'Finance', 'Others'];
+final List<String> skillSet = [
+  'Java',
+  'Cloud',
+  'SQL',
+  'Python',
+  'Flutter',
+  'C#',
+  'DBMS'
+];
 final List<ResourcePerson> previews = [
   ResourcePerson(
     name: 'Meimozhi',
@@ -37,37 +46,7 @@ final List<ResourcePerson> previews = [
     designation: 'Product Manager',
   ),
   ResourcePerson(
-    name: 'Lucifer',
-    imageUrl: Assets.user5,
-    color: Colors.green,
-    designation: 'Project Manager',
-  ),
-  ResourcePerson(
-    name: 'Meimozhi',
-    imageUrl: Assets.user1,
-    color: Colors.orange,
-    designation: 'Product Head',
-  ),
-  ResourcePerson(
-    name: 'Manimozhi',
-    imageUrl: Assets.user2,
-    color: Colors.red,
-    designation: 'Technical Head',
-  ),
-  ResourcePerson(
-    name: 'Karthika',
-    imageUrl: Assets.user3,
-    color: Colors.yellow,
-    designation: 'Sales Head',
-  ),
-  ResourcePerson(
-    name: 'Mohan Kumaar',
-    imageUrl: Assets.user4,
-    color: Colors.lightBlueAccent,
-    designation: 'Product Manager',
-  ),
-  ResourcePerson(
-    name: 'Lucifer',
+    name: 'Festus',
     imageUrl: Assets.user5,
     color: Colors.green,
     designation: 'Project Manager',
@@ -76,7 +55,7 @@ final List<ResourcePerson> previews = [
 
 final List<Content> myList = const [
   Content(
-      name: 'Chakravarthy',
+      name: 'Chakravarthi',
       imageUrl: Assets.testimony1,
       description:
           'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.\nIt was a good, simple setup that used the funhouse\nto tie in an issue from several years ago,\nmaking this rivalry immediately more personal\nand grounded.'),
