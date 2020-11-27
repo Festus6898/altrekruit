@@ -1,11 +1,10 @@
-// ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 import 'dart:typed_data';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase/firebase.dart' as fb;
 import 'package:mera_app/datatemp/data.dart';
-import 'package:mera_app/screens/screens.dart';
 
 class SignUpRP extends StatefulWidget {
   final Function onLogInSelected;
@@ -15,11 +14,16 @@ class SignUpRP extends StatefulWidget {
   _SignUpRPState createState() => _SignUpRPState();
 }
 
+var _currentUrl;
+Color _checkColor = Colors.red;
+Color _checkColor1 = Colors.red;
+
 class _SignUpRPState extends State<SignUpRP> {
   bool testData = false;
   int testRadio = 0;
   int testRadio1 = 0;
   Image pickedImage;
+  //var _currentUrl;
   Uint8List uploadedImage;
   var _categoriesIndustryDrop = List<DropdownMenuItem>();
   var _selectedValue;
@@ -42,27 +46,6 @@ class _SignUpRPState extends State<SignUpRP> {
         ));
       });
     });
-  }
-
-  pickImage() async {
-    /// You can set the parameter asUint8List to true
-    /// to get only the bytes from the image
-    /* Uint8List bytesFromPicker =
-        await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-
-    if (bytesFromPicker != null) {
-      debugPrint(bytesFromPicker.toString());
-    } */
-
-    /// Default behavior would be getting the Image.memory
-    Image fromPicker =
-        await ImagePickerWeb.getImage(outputType: ImageType.widget);
-
-    if (fromPicker != null) {
-      setState(() {
-        pickedImage = fromPicker;
-      });
-    }
   }
 
   showAlertDialog(BuildContext context) {
@@ -453,126 +436,124 @@ class _SignUpRPState extends State<SignUpRP> {
   _showSocialDialog(BuildContext context) {
     return showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: true,
         builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
-            child: Container(
-              height: 500,
-              width: 500,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: SingleChildScrollView(
+          return StatefulBuilder(builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)), //this right here
+              child: Container(
+                height: 500,
+                width: 500,
+                child: Padding(
+                  padding: EdgeInsets.all(12.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Text(
-                          "Social Accounts",
-                          style: TextStyle(
-                            color: Colors.purple[800],
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
+                      Text(
+                        "Profile Picture",
+                        style: TextStyle(
+                          color: Colors.purple[800],
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      GestureDetector(
+                        child: CircleAvatar(
+                          radius: 20.0,
+                          child: Icon(
+                            Icons.people_alt_rounded,
                           ),
+                          backgroundColor: _checkColor,
+                          //backgroundImage: NetworkImage(""),
+                        ),
+                        onTap: () {
+                          String value = uploadToStorageImage("testProfile");
+                          print(value);
+                          if (value.isNotEmpty) {
+                            setState(() {
+                              _checkColor = Colors.green;
+                            });
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        "Resume",
+                        style: TextStyle(
+                          color: Colors.purple[800],
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      GestureDetector(
+                        child: CircleAvatar(
+                          radius: 20.0,
+                          child: Icon(
+                            Icons.people_alt_rounded,
+                          ),
+                          backgroundColor: _checkColor1,
+                          //backgroundImage: NetworkImage(""),
+                        ),
+                        onTap: () {
+                          String value1 = uploadToStorageResume("testResume");
+                          print(value1);
+                          if (value1.toLowerCase() == "successresume") {
+                            setState(() {
+                              _checkColor1 = Colors.green;
+                            });
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        "LinkedIn Profile",
+                        style: TextStyle(
+                          color: Colors.purple[800],
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextField(
+                        //controller: _categoryName,
+                        decoration: InputDecoration(
+                          labelText: "LinkedIN",
+                          hintText: "Enter LinkedIN URL",
                         ),
                       ),
                       SizedBox(
                         height: 40.0,
                       ),
-                      GestureDetector(
-                        child: Container(
-                          width: 50.0,
-                          height: 50.0,
-                          color: Colors.black,
-                          child: pickedImage,
+                      RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            side: BorderSide(color: Colors.black)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _showPreferenceDialog(context);
+                        },
+                        child: Text(
+                          "Next",
+                          style: TextStyle(color: Colors.white),
                         ),
-                        onTap: pickImage,
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                        "LinkedIn Profile Link",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      TextField(
-                        //controller: _categoryName,
-                        decoration: InputDecoration(
-                          labelText: "LinkedIn Profile",
-                          hintText: "Enter LinkedIn Profile",
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                        "Resume/CV",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      TextField(
-                        //controller: _categoryName,
-                        decoration: InputDecoration(
-                          labelText: "upload Resume",
-                          hintText: "upload Resume link",
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.black)),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            color: Colors.purple[800],
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.black)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NavigateScreen()),
-                              );
-                            },
-                            child: Text(
-                              "Next",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            color: Colors.purple[800],
-                          ),
-                        ],
+                        color: Colors.purple[800],
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-          );
+            );
+          });
         });
   }
 
@@ -851,4 +832,85 @@ class _SignUpRPState extends State<SignUpRP> {
       ),
     );
   }
+}
+
+String downloadUrl(String photoUrl) {
+  var _currentUrl = fb
+      .storage()
+      .refFromURL('gs://alt-hosting.appspot.com/')
+      .child(photoUrl)
+      .getDownloadURL()
+      .toString();
+  print(_currentUrl);
+  return _currentUrl;
+}
+
+void uploadImage({@required Function(File file) onSelected}) {
+  InputElement uploadInput = FileUploadInputElement()..accept = 'image/*';
+  uploadInput.click();
+
+  uploadInput.onChange.listen((event) {
+    final file = uploadInput.files.first;
+    final reader = FileReader();
+    reader.readAsDataUrl(file);
+    reader.onLoadEnd.listen((event) {
+      onSelected(file);
+      print(file.name);
+    });
+  });
+}
+
+void uploadResume({@required Function(File file) onSelected}) {
+  InputElement uploadInput = FileUploadInputElement()
+    ..accept = 'application/pdf';
+  uploadInput.click();
+
+  uploadInput.onChange.listen((event) {
+    final file = uploadInput.files.first;
+    final reader = FileReader();
+    reader.readAsDataUrl(file);
+    reader.onLoadEnd.listen((event) {
+      onSelected(file);
+      print(file.name);
+    });
+  });
+}
+
+//{@required Function(File file) onSelected}
+String uploadToStorageImage(String name) {
+  final dateTime = DateTime.now().month.toString();
+  final userId = name;
+  final path = '$dateTime/$userId';
+  print(path);
+  uploadImage(
+    onSelected: (file) {
+      fb
+          .storage()
+          .refFromURL('gs://alt-hosting.appspot.com/')
+          .child(path)
+          .put(file);
+    },
+  );
+  return "SuccessProfile";
+}
+
+String uploadToStorageResume(String name) {
+  final dateTime = DateTime.now().month.toString();
+  final userId = name;
+  final path = '$dateTime/$userId';
+  print(path);
+  uploadResume(
+    onSelected: (file) {
+      fb
+          .storage()
+          .refFromURL('gs://alt-hosting.appspot.com/')
+          .child(path)
+          .put(file)
+          .future
+          .then((_) {
+        return null;
+      });
+    },
+  );
+  return "successResume";
 }

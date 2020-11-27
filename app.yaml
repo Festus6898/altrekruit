@@ -6,11 +6,14 @@ handlers:
 - url: /
   static_files: build/web/index.html
   upload: build/web/index.html
+  secure: always
 
 - url: /assets/images/(.*)
   static_files: assets/images/\1
   upload: assets/images/(.*)
+  secure: always
 
 - url: /(.*)
   static_files: build/web/\1
   upload: build/web/(.*)
+  secure: always

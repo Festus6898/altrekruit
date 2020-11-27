@@ -1,6 +1,6 @@
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 import 'dart:typed_data';
-import 'package:image_picker_web/image_picker_web.dart';
 import 'package:flutter/material.dart';
 import 'package:mera_app/screens/screens.dart';
 
