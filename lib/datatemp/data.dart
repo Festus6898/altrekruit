@@ -11,15 +11,22 @@ final Content splashContent = Content(
   description: 'Dream Job, Your Way',
 );
 final List<String> industryDrop = ['Software/IT', 'Finance', 'Others'];
-final List<String> skillSet = [
-  'Java',
-  'Cloud',
-  'SQL',
-  'Python',
-  'Flutter',
-  'C#',
-  'DBMS'
+final List<String> subDomainDrop = [
+  'Fullstack Developer',
+  'UI Developer',
+  'API Developer'
 ];
+final List<String> skillSet = [
+  'HTML',
+  'CSS',
+  'bootstrap',
+  'Javascript',
+  'photoshop',
+  'illustrator',
+  'flutter',
+  'dart',
+  'vue.js',
+]; // angular.js, react, xamarin, c#, swift, dart API, kotlin, java, python, rust, node.js, php, typescript, c/c++, ruby, rust, MySQL, PostgreSQL, MS SQL Server, SQLite, MongoDB, Redis, MariaDB, Oracle, Elasticsearch, Firebase, DynamoDB, Cassandra, Couchbase, data science, data analysis, numpy , pandas, matlab, potly, seaborn, deeplearning, keras, pytorch, scala, pytorch, tensorflow, spark, hive, hadoop, tableu, qlickview, dash, reinforcement learning, GuriVR, OpenSpace3D, Google's ARCore, Holokit, ApertusVr, A-Frame, Lovr, cisco, routing, vpn, OSPF, switches, Cisco products, border gateway protocol, Network engineering, penetration testing, ddos, linux, unix, information security, Firewalls, cybersecurity, aws, gcp, azure, oracle, salesforce, ibm, agile, scrum, kanban, story telling, microsoft office, sql, business analysis];
 final List<ResourcePerson> previews = [
   ResourcePerson(
     name: 'Meimozhi',

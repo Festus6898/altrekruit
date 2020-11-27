@@ -6,3 +6,4 @@ export 'login_screen.dart';
 export 'login_rp_screen.dart';
 export 'initial_home_screen.dart';
 export 'initial_nav_screen.dart';
+export 'success_screen.dart';

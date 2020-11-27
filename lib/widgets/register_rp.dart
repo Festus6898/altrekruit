@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:html';
-import 'dart:typed_data';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:mera_app/models/resourceperson.dart';
+import 'package:mera_app/screens/screens.dart';
+import 'package:http/http.dart' as http;
 import 'package:firebase/firebase.dart' as fb;
 import 'package:mera_app/datatemp/data.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignUpRP extends StatefulWidget {
   final Function onLogInSelected;
@@ -14,27 +17,39 @@ class SignUpRP extends StatefulWidget {
   _SignUpRPState createState() => _SignUpRPState();
 }
 
-var _currentUrl;
 Color _checkColor = Colors.red;
 Color _checkColor1 = Colors.red;
 
 class _SignUpRPState extends State<SignUpRP> {
   bool testData = false;
+  List _dataProvince = List();
   int testRadio = 0;
   int testRadio1 = 0;
-  Image pickedImage;
-  //var _currentUrl;
-  Uint8List uploadedImage;
+  var _resourcePerson = ResourcePersonModel();
   var _categoriesIndustryDrop = List<DropdownMenuItem>();
-  var _selectedValue;
+  var _categoriesSubDomainDrop = List<DropdownMenuItem>();
+  var _selectedIndustry;
+  var _selectedDomain;
   var _selectedSkill1;
   var _selectedSkill2;
   var _selectedSkill3;
+  var name = TextEditingController();
+  var email = TextEditingController();
+  var mobile = TextEditingController();
+  var pwd = TextEditingController();
+  var designation = TextEditingController();
+  var currCompany = TextEditingController();
+  var preCompany = TextEditingController();
+  var industry = TextEditingController();
+  var subDomain = TextEditingController();
+  var linkedIn = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadCategories();
+    _loadDomainCategories();
+    getSWData();
   }
 
   _loadCategories() async {
@@ -46,6 +61,30 @@ class _SignUpRPState extends State<SignUpRP> {
         ));
       });
     });
+  }
+
+  _loadDomainCategories() async {
+    subDomainDrop.forEach((category) {
+      setState(() {
+        _categoriesSubDomainDrop.add(DropdownMenuItem(
+          child: Text(category),
+          value: category,
+        ));
+      });
+    });
+  }
+
+  Future<String> getSWData() async {
+    final String url =
+        "https://cors-anywhere.herokuapp.com/https://altrekruit.com/api/skills";
+    var res = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var resBody = json.decode(res.body);
+    setState(() {
+      _dataProvince = resBody;
+    });
+
+    return "Sucess";
   }
 
   showAlertDialog(BuildContext context) {
@@ -60,7 +99,37 @@ class _SignUpRPState extends State<SignUpRP> {
     // Create AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Warning"),
-      content: Text("Minimum of two UNIQUE tech skills are required."),
+      content: Text("All the * fields are MANDATORY"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showResultDialog(BuildContext context) {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SuccessScreen()),
+        );
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Message"),
+      content: Text("User Created Successfully"),
       actions: [
         okButton,
       ],
@@ -106,16 +175,28 @@ class _SignUpRPState extends State<SignUpRP> {
                       SizedBox(
                         height: 40.0,
                       ),
-                      Text(
-                        "Designation",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            "Designation",
+                            style: TextStyle(
+                              color: Colors.purple[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                              color: Colors.red[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                       TextField(
-                        //controller: _categoryName,
+                        controller: designation,
                         decoration: InputDecoration(
                           labelText: "Current Designation",
                           hintText: "Enter Designation",
@@ -124,16 +205,28 @@ class _SignUpRPState extends State<SignUpRP> {
                       SizedBox(
                         height: 20.0,
                       ),
-                      Text(
-                        "Current Workplace",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            "Current Workplace",
+                            style: TextStyle(
+                              color: Colors.purple[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                              color: Colors.red[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                       TextField(
-                        //controller: _categoryName,
+                        controller: currCompany,
                         decoration: InputDecoration(
                           labelText: "Current Workplace",
                           hintText: "Enter Workplace",
@@ -142,16 +235,28 @@ class _SignUpRPState extends State<SignUpRP> {
                       SizedBox(
                         height: 20.0,
                       ),
-                      Text(
-                        "Previous Workplace",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            "Previous Workplace",
+                            style: TextStyle(
+                              color: Colors.purple[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                              color: Colors.red[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                       TextField(
-                        //controller: _categoryName,
+                        controller: preCompany,
                         decoration: InputDecoration(
                           labelText: "Previous Workplace",
                           hintText: "Enter Workplace",
@@ -160,22 +265,66 @@ class _SignUpRPState extends State<SignUpRP> {
                       SizedBox(
                         height: 20.0,
                       ),
-                      Text(
-                        "Industrial Category",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            "Industrial Category",
+                            style: TextStyle(
+                              color: Colors.purple[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                              color: Colors.red[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                       DropdownButtonFormField(
-                        value: _selectedValue,
+                        value: _selectedIndustry,
                         items: _categoriesIndustryDrop,
                         hint: Text("Select a category"),
                         onChanged: (value) {
                           setState(() {
-                            _selectedValue = value;
-                            print(_selectedValue.toString());
+                            _selectedIndustry = value;
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Industry SubDomain",
+                            style: TextStyle(
+                              color: Colors.purple[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                              color: Colors.red[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      DropdownButtonFormField(
+                        value: _selectedDomain,
+                        items: _categoriesSubDomainDrop,
+                        hint: Text("Select a category"),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedDomain = value;
                           });
                         },
                       ),
@@ -206,8 +355,30 @@ class _SignUpRPState extends State<SignUpRP> {
                                 borderRadius: BorderRadius.circular(5.0),
                                 side: BorderSide(color: Colors.black)),
                             onPressed: () {
-                              Navigator.pop(context);
-                              _showPreferenceDialog(context);
+                              if (designation.text.isEmpty ||
+                                  email.text.isEmpty ||
+                                  currCompany.text.isEmpty ||
+                                  _selectedIndustry.toString().isEmpty ||
+                                  _selectedDomain.toString().isEmpty) {
+                                return showAlertDialog(context);
+                              } else {
+                                _resourcePerson.designation = designation.text;
+                                _resourcePerson.currCompany = currCompany.text;
+                                _resourcePerson.prevCompany = preCompany.text;
+                                _resourcePerson.industry = _selectedIndustry;
+                                _resourcePerson.subDomain = _selectedDomain;
+                                print(_resourcePerson.designation +
+                                    "||" +
+                                    _resourcePerson.currCompany +
+                                    "||" +
+                                    _resourcePerson.prevCompany +
+                                    "||" +
+                                    _resourcePerson.subDomain +
+                                    "||" +
+                                    _resourcePerson.industry);
+                                Navigator.pop(context);
+                                return _showPreferenceDialog(context);
+                              }
                             },
                             child: Text(
                               "Next",
@@ -227,6 +398,7 @@ class _SignUpRPState extends State<SignUpRP> {
   }
 
   _showPreferenceDialog(BuildContext context) {
+    List<String> skills = _dataProvince.cast<String>();
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -258,13 +430,25 @@ class _SignUpRPState extends State<SignUpRP> {
                         SizedBox(
                           height: 40.0,
                         ),
-                        Text(
-                          "Key Skills",
-                          style: TextStyle(
-                            color: Colors.purple[800],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              "Key Skills",
+                              style: TextStyle(
+                                color: Colors.purple[800],
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              "*",
+                              style: TextStyle(
+                                color: Colors.red[800],
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 5.0,
@@ -278,7 +462,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           required: false,
                           hintText: 'Select Skill',
                           labelText: '1st Skill',
-                          items: skillSet,
+                          items: skills.toList(),
                         ),
                         SizedBox(
                           height: 5.0,
@@ -292,7 +476,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           required: false,
                           hintText: 'Select Skill',
                           labelText: '2nd Skill',
-                          items: skillSet,
+                          items: skills.toList(),
                         ),
                         SizedBox(
                           height: 5.0,
@@ -306,15 +490,23 @@ class _SignUpRPState extends State<SignUpRP> {
                           required: false,
                           hintText: 'Select Skill',
                           labelText: '3rd Skill',
-                          items: skillSet,
+                          items: skills.toList(),
                         ),
                         SizedBox(
                           height: 20.0,
                         ),
                         Text(
-                          "Carrier Advise can be mapped based on the skills mapped?",
+                          "Carrier Advise or Webinar can be mapped based on the skills mapped?",
                           style: TextStyle(
                             color: Colors.purple[800],
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          "*",
+                          style: TextStyle(
+                            color: Colors.red[800],
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
@@ -350,6 +542,14 @@ class _SignUpRPState extends State<SignUpRP> {
                           "Is Referral System allowed in your workplace and you are willing to refer people?",
                           style: TextStyle(
                             color: Colors.purple[800],
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          "*",
+                          style: TextStyle(
+                            color: Colors.red[800],
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
@@ -411,6 +611,21 @@ class _SignUpRPState extends State<SignUpRP> {
                                 } else {
                                   Navigator.pop(context);
                                   _showSocialDialog(context);
+                                  _resourcePerson.firstSkill = _selectedSkill1;
+                                  _resourcePerson.secondSkill = _selectedSkill2;
+                                  _resourcePerson.thirdSkill = _selectedSkill3;
+                                  if (testRadio == 1)
+                                    _resourcePerson.carrier = 1;
+                                  else
+                                    _resourcePerson.carrier = 0;
+                                  if (testRadio1 == 1)
+                                    _resourcePerson.referral = 1;
+                                  else
+                                    _resourcePerson.referral = 0;
+                                  print("Carrier: " +
+                                      _resourcePerson.carrier.toString() +
+                                      " Referral: " +
+                                      _resourcePerson.referral.toString());
                                 }
                               },
                               child: Text(
@@ -516,16 +731,28 @@ class _SignUpRPState extends State<SignUpRP> {
                       SizedBox(
                         height: 20.0,
                       ),
-                      Text(
-                        "LinkedIn Profile",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            "LinkedIn Profile",
+                            style: TextStyle(
+                              color: Colors.purple[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                              color: Colors.red[800],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                       TextField(
-                        //controller: _categoryName,
+                        controller: linkedIn,
                         decoration: InputDecoration(
                           labelText: "LinkedIN",
                           hintText: "Enter LinkedIN URL",
@@ -538,9 +765,18 @@ class _SignUpRPState extends State<SignUpRP> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             side: BorderSide(color: Colors.black)),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _showPreferenceDialog(context);
+                        onPressed: () async {
+                          if (linkedIn.text.isEmpty) {
+                            showAlertDialog(context);
+                          } else {
+                            _resourcePerson.linkedIn = linkedIn.text;
+                            print("Calling createUser");
+                            String result = await createUser(_resourcePerson);
+                            print(result);
+                            if (result.toLowerCase() == "success") {
+                              showResultDialog(context);
+                            }
+                          }
                         },
                         child: Text(
                           "Next",
@@ -636,7 +872,7 @@ class _SignUpRPState extends State<SignUpRP> {
                             ),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          hintText: "Name",
+                          hintText: "Full Name*",
                           hintStyle: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black,
@@ -647,7 +883,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           ),
                         ),
                         maxLines: 1,
-                        //controller: _usernameControl,
+                        controller: name,
                       ),
                       SizedBox(
                         height: 32,
@@ -677,7 +913,7 @@ class _SignUpRPState extends State<SignUpRP> {
                             ),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          hintText: "Email",
+                          hintText: "Email*",
                           hintStyle: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black,
@@ -688,7 +924,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           ),
                         ),
                         maxLines: 1,
-                        //controller: _usernameControl,
+                        controller: email,
                       ),
                       SizedBox(
                         height: 32,
@@ -718,7 +954,7 @@ class _SignUpRPState extends State<SignUpRP> {
                             ),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          hintText: "Password",
+                          hintText: "Password*",
                           hintStyle: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black,
@@ -729,7 +965,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           ),
                         ),
                         maxLines: 1,
-                        //controller: _usernameControl,
+                        controller: pwd,
                       ),
                       SizedBox(
                         height: 32,
@@ -759,7 +995,7 @@ class _SignUpRPState extends State<SignUpRP> {
                             ),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          hintText: "Mobile",
+                          hintText: "Mobile*",
                           hintStyle: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black,
@@ -770,7 +1006,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           ),
                         ),
                         maxLines: 1,
-                        //controller: _usernameControl,
+                        controller: mobile,
                       ),
                       SizedBox(
                         height: 32,
@@ -778,7 +1014,20 @@ class _SignUpRPState extends State<SignUpRP> {
                       RaisedButton(
                         child: Text("Go Ahead".toUpperCase()),
                         color: Colors.white,
-                        onPressed: () => _showOccupationDialog(context),
+                        onPressed: () {
+                          if (name.text.isEmpty ||
+                              email.text.isEmpty ||
+                              mobile.text.isEmpty ||
+                              pwd.text.isEmpty) {
+                            return showAlertDialog(context);
+                          } else {
+                            _resourcePerson.name = name.text;
+                            _resourcePerson.email = email.text;
+                            _resourcePerson.mobile = mobile.text;
+                            _resourcePerson.pwd = pwd.text;
+                            return _showOccupationDialog(context);
+                          }
+                        },
                       ),
                       SizedBox(
                         height: 32,
@@ -876,7 +1125,6 @@ void uploadResume({@required Function(File file) onSelected}) {
   });
 }
 
-//{@required Function(File file) onSelected}
 String uploadToStorageImage(String name) {
   final dateTime = DateTime.now().month.toString();
   final userId = name;
@@ -891,7 +1139,7 @@ String uploadToStorageImage(String name) {
           .put(file);
     },
   );
-  return "SuccessProfile";
+  return path;
 }
 
 String uploadToStorageResume(String name) {
@@ -912,5 +1160,21 @@ String uploadToStorageResume(String name) {
       });
     },
   );
-  return "successResume";
+  return path;
+}
+
+Future<String> createUser(ResourcePersonModel resource) async {
+  final String apiUrl =
+      "https://cors-anywhere.herokuapp.com/https://altrekruit.com/api/createRP";
+  var body = json.encode(resource.resourcePersonMap());
+  Map<String, String> headers = {"Content-type": "application/json"};
+  print(body);
+  print("Running Post API");
+  final response =
+      await http.post(Uri.encodeFull(apiUrl), body: body, headers: headers);
+  print(response.statusCode);
+  if (response.statusCode == 200)
+    return "Success";
+  else
+    return "Failed";
 }

@@ -42,6 +42,7 @@ dependencies:
   firebase_core: ^0.5.2+1
   firebase_storage: ^5.1.0
   universal_html: ^1.2.3
+  font_awesome_flutter: ^8.10.0
 
 dev_dependencies:
   flutter_test:
