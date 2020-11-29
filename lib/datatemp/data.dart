@@ -14,7 +14,11 @@ final List<String> industryDrop = ['Software/IT', 'Finance', 'Others'];
 final List<String> subDomainDrop = [
   'Fullstack Developer',
   'UI Developer',
-  'API Developer'
+  'API Developer',
+  'Graphic Designer',
+  'Cloud Architect',
+  'AI/ML Architect',
+  'VR/AR Developer'
 ];
 final List<String> skillSet = [
   'HTML',
@@ -26,7 +30,7 @@ final List<String> skillSet = [
   'flutter',
   'dart',
   'vue.js',
-]; // angular.js, react, xamarin, c#, swift, dart API, kotlin, java, python, rust, node.js, php, typescript, c/c++, ruby, rust, MySQL, PostgreSQL, MS SQL Server, SQLite, MongoDB, Redis, MariaDB, Oracle, Elasticsearch, Firebase, DynamoDB, Cassandra, Couchbase, data science, data analysis, numpy , pandas, matlab, potly, seaborn, deeplearning, keras, pytorch, scala, pytorch, tensorflow, spark, hive, hadoop, tableu, qlickview, dash, reinforcement learning, GuriVR, OpenSpace3D, Google's ARCore, Holokit, ApertusVr, A-Frame, Lovr, cisco, routing, vpn, OSPF, switches, Cisco products, border gateway protocol, Network engineering, penetration testing, ddos, linux, unix, information security, Firewalls, cybersecurity, aws, gcp, azure, oracle, salesforce, ibm, agile, scrum, kanban, story telling, microsoft office, sql, business analysis];
+];
 final List<ResourcePerson> previews = [
   ResourcePerson(
     name: 'Meimozhi',
@@ -65,40 +69,40 @@ final List<Content> myList = const [
       name: 'Chakravarthi',
       imageUrl: Assets.testimony1,
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.\nIt was a good, simple setup that used the funhouse\nto tie in an issue from several years ago,\nmaking this rivalry immediately more personal\nand grounded.'),
+          'The services provided are useful in a long run,\nwhich makes way for my enhancement in\nthe domain that I love.'),
   Content(
       name: 'Nethaji',
       imageUrl: Assets.testimony2,
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.\nIt was a good, simple setup that used the funhouse\nto tie in an issue from several years ago,\nmaking this rivalry immediately more personal\nand grounded.'),
+          'Referral System was on point and the resource\nperson was helpful in building my profile\ntowards a better Carrier.'),
   Content(
       name: 'Ajay',
       imageUrl: Assets.testimony3,
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.\nIt was a good, simple setup that used the funhouse\nto tie in an issue from several years ago,\nmaking this rivalry immediately more personal\nand grounded.'),
+          'The transparency, availability, accessibity of this site is\nso user-friendly that this can be suggested to others also.\nThe end result is always Positive.'),
 ];
 //
 final List<Content> originals = const [
   Content(
       name: 'What defines AltReKruit?',
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.'),
+          'AltRekruit is the platform for the freshers and Job seekers who wants referral and guidance to shape up their carrier.'),
   Content(
       name: 'As a resource person, how would I be satisfied?',
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.'),
+          'Since Resource Person would be our major player, Resource Person will be duly paid for the referrals he make after submitting the proof for the same.'),
   Content(
-      name: 'As a Fresher, what should I do to get a job through referral?',
+      name: 'As a Fresher, what should I do to get a job through this website?',
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.'),
+          'For Freshers, the options for the referral would be minimal as most reputed firms do not go for it. But still he/she can get job through our Job Portal.'),
   Content(
       name: 'What are the ways of getting Career advice?',
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.'),
+          'Carrier advice is an add on festure that lets user to get knowledge about the carrier path and approach towards the same from people who tasted success in that path.'),
   Content(
       name: 'For how long referral would be valid',
       description:
-          'Wyatt then warned that “he” never forgets,\nimplying that the Fiend was coming for payback.'),
+          'The validity of the referral will vary for different firms and the same goes for the validity period also. Kindly get the information of this through Resource Person.'),
 ];
 //
 //final List<Content> trending = const [

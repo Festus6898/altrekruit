@@ -85,26 +85,27 @@ class _CustomAppBarDesktop extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => InitialHomeScreen()),
                       );
                     }),
                 _AppBarButton(
                   title: 'Consult',
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResourceDisplayScreen()),
-                    );
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                          builder: (context) => ResourceDisplayScreen()),
+//                    );
                   },
                 ),
                 _AppBarButton(
                   title: 'AI Portal',
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TestScreen()),
-                    );
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(builder: (context) => TestScreen()),
+//                    );
                   },
                 ),
                 _AppBarButton(

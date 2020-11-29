@@ -75,8 +75,7 @@ class _SignUpRPState extends State<SignUpRP> {
   }
 
   Future<String> getSWData() async {
-    final String url =
-        "https://cors-anywhere.herokuapp.com/https://altrekruit.com/api/skills";
+    final String url = "https://altrekruit.com/api/skills";
     var res = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
@@ -228,8 +227,8 @@ class _SignUpRPState extends State<SignUpRP> {
                       TextField(
                         controller: currCompany,
                         decoration: InputDecoration(
-                          labelText: "Current Workplace",
-                          hintText: "Enter Workplace",
+                          labelText: "Current Company",
+                          hintText: "Enter Company",
                         ),
                       ),
                       SizedBox(
@@ -258,8 +257,8 @@ class _SignUpRPState extends State<SignUpRP> {
                       TextField(
                         controller: preCompany,
                         decoration: InputDecoration(
-                          labelText: "Previous Workplace",
-                          hintText: "Enter Workplace",
+                          labelText: "Previous Company",
+                          hintText: "Enter Company",
                         ),
                       ),
                       SizedBox(
@@ -301,7 +300,7 @@ class _SignUpRPState extends State<SignUpRP> {
                       Row(
                         children: [
                           Text(
-                            "Industry SubDomain",
+                            "Domain Expertise",
                             style: TextStyle(
                               color: Colors.purple[800],
                               fontSize: 20,
@@ -321,7 +320,7 @@ class _SignUpRPState extends State<SignUpRP> {
                       DropdownButtonFormField(
                         value: _selectedDomain,
                         items: _categoriesSubDomainDrop,
-                        hint: Text("Select a category"),
+                        hint: Text("Select your Domain"),
                         onChanged: (value) {
                           setState(() {
                             _selectedDomain = value;
@@ -496,7 +495,7 @@ class _SignUpRPState extends State<SignUpRP> {
                           height: 20.0,
                         ),
                         Text(
-                          "Carrier Advise or Webinar can be mapped based on the skills mapped?",
+                          "Would you like to give carrier advice or webinar to students in future?",
                           style: TextStyle(
                             color: Colors.purple[800],
                             fontSize: 20,
@@ -1164,8 +1163,8 @@ String uploadToStorageResume(String name) {
 }
 
 Future<String> createUser(ResourcePersonModel resource) async {
-  final String apiUrl =
-      "https://cors-anywhere.herokuapp.com/https://altrekruit.com/api/createRP";
+  final String apiUrl = "https://altrekruit.com/api/createRP";
+  //https://cors-anywhere.herokuapp.com/
   var body = json.encode(resource.resourcePersonMap());
   Map<String, String> headers = {"Content-type": "application/json"};
   print(body);

@@ -11,8 +11,7 @@ class ResourceDisplayScreen extends StatefulWidget {
 class _ResourceDisplayScreenState extends State<ResourceDisplayScreen> {
   String _mySelection;
   List _dataProvince = List(); //edited line
-  final String url =
-      "https://cors-anywhere.herokuapp.com/https://altrekruit.com/api/skills";
+  final String url = "https://altrekruit.com/api/skills";
   Future<String> getSWData() async {
     var res = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
