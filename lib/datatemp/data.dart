@@ -69,12 +69,12 @@ final List<Content> myList = const [
       name: 'Chakravarthi',
       imageUrl: Assets.testimony1,
       description:
-          'The services provided are useful in a long run,\nwhich makes way for my enhancement in\nthe domain that I love.'),
+          'In the age of ed-tech there are many courses\nor options to choose from but without\nguidance of a person you get lost in learning.\nAltrekruit bridges the gap between learning\nand getting placed.'),
   Content(
       name: 'Nethaji',
       imageUrl: Assets.testimony2,
       description:
-          'Referral System was on point and the resource\nperson was helpful in building my profile\ntowards a better Carrier.'),
+          'I was clueless regarding my career path,\naltrekruit helped me tofigure out my\ndomain according to my interest.'),
   Content(
       name: 'Ajay',
       imageUrl: Assets.testimony3,
@@ -86,23 +86,35 @@ final List<Content> originals = const [
   Content(
       name: 'What defines AltReKruit?',
       description:
-          'AltRekruit is the platform for the freshers and Job seekers who wants referral and guidance to shape up their carrier.'),
+          'Altrekruit is a platform which connects students and job seekers with industry persons so that Students and job seekers understand the inner workings of a particular domain or get placed in top notch companies.'),
   Content(
-      name: 'As a resource person, how would I be satisfied?',
+      name: 'What is the role of industry professionals?',
       description:
-          'Since Resource Person would be our major player, Resource Person will be duly paid for the referrals he make after submitting the proof for the same.'),
+          'Industry professionals help students/job seekers to reach maximum potential in the domain or industry they are working on.'),
   Content(
-      name: 'As a Fresher, what should I do to get a job through this website?',
+      name: 'How does industry professionals help students/job seekers?',
       description:
-          'For Freshers, the options for the referral would be minimal as most reputed firms do not go for it. But still he/she can get job through our Job Portal.'),
+          'We provide 3 services: Carrier Advice, Mentorship and Referral.'),
   Content(
-      name: 'What are the ways of getting Career advice?',
+      name: 'How does the Carrier Advice work?',
       description:
-          'Carrier advice is an add on festure that lets user to get knowledge about the carrier path and approach towards the same from people who tasted success in that path.'),
+          'Students/job seekers connect with industry professionals of their choice in any industry/domain. User can ask any questions from how to prepare for an interview or are they right fit for the domain to prospects in future.'),
   Content(
-      name: 'For how long referral would be valid',
+      name: 'How does the Referral work?',
       description:
-          'The validity of the referral will vary for different firms and the same goes for the validity period also. Kindly get the information of this through Resource Person.'),
+          'Industry person evaluates a student/job seeker profile and conducts a 30-45 minute interview about his or her domain expertise. If he is satisfied with his or her  performance you get a fast tracked interview with the company he is working for.'),
+  Content(
+      name: 'How does the Mentorship work?',
+      description:
+          'This is a tailor made package for students/job seekers where they interact with industry professionals for 5 months over the course of weekend to make sure students/job seekers  can crack interviews in the domain/industry.'),
+  Content(
+      name: 'How much do i get paid for these services?',
+      description:
+          'We take flat 30 percent commission on the payment student makes.'),
+  Content(
+      name: 'What is the pricing for each service?',
+      description:
+          'For CA/Referral, we charge 1500/1000rs depending on the company/position Resource Person is holding.'),
 ];
 //
 //final List<Content> trending = const [

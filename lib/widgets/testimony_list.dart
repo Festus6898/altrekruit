@@ -51,7 +51,7 @@ class TestimonyList extends StatelessWidget {
                   horizontal: 18.0,
                 ),
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                  shape: BoxShape.rectangle,
                 ),
                 child: Column(
                   children: [
@@ -100,7 +100,7 @@ class TestimonyList extends StatelessWidget {
                         content.description,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 18.0,
+                          fontSize: 20.0,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
