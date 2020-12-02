@@ -56,7 +56,7 @@ class _FaqListMobile extends StatelessWidget {
           height: 20.0,
         ),
         Container(
-          height: 180.0,
+          height: 250.0,
           child: Swiper(
             scrollDirection: Axis.horizontal,
             itemCount: listContent.length,

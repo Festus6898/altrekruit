@@ -27,7 +27,7 @@ class _SignUpRPState extends State<SignUpRP> {
   int testRadio1 = 0;
   var _resourcePerson = ResourcePersonModel();
   var _categoriesIndustryDrop = List<DropdownMenuItem>();
-  var _categoriesSubDomainDrop = List<DropdownMenuItem>();
+  var _categoriesSubDomainDropIT = List<DropdownMenuItem>();
   var _selectedIndustry;
   var _selectedDomain;
   var _selectedSkill1;
@@ -49,6 +49,7 @@ class _SignUpRPState extends State<SignUpRP> {
     super.initState();
     _loadCategories();
     _loadDomainCategories();
+
     getSWData();
   }
 
@@ -66,7 +67,7 @@ class _SignUpRPState extends State<SignUpRP> {
   _loadDomainCategories() async {
     subDomainDrop.forEach((category) {
       setState(() {
-        _categoriesSubDomainDrop.add(DropdownMenuItem(
+        _categoriesSubDomainDropIT.add(DropdownMenuItem(
           child: Text(category),
           value: category,
         ));
@@ -319,7 +320,7 @@ class _SignUpRPState extends State<SignUpRP> {
                       ),
                       DropdownButtonFormField(
                         value: _selectedDomain,
-                        items: _categoriesSubDomainDrop,
+                        items: _categoriesSubDomainDropIT,
                         hint: Text("Select your Domain"),
                         onChanged: (value) {
                           setState(() {
@@ -338,7 +339,12 @@ class _SignUpRPState extends State<SignUpRP> {
                                 borderRadius: BorderRadius.circular(5.0),
                                 side: BorderSide(color: Colors.black)),
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        LoginResourceScreen()),
+                              );
                             },
                             child: Text(
                               "Cancel",
@@ -587,10 +593,10 @@ class _SignUpRPState extends State<SignUpRP> {
                                   borderRadius: BorderRadius.circular(5.0),
                                   side: BorderSide(color: Colors.black)),
                               onPressed: () {
-                                Navigator.pop(context);
+                                _showOccupationDialog(context);
                               },
                               child: Text(
-                                "Cancel",
+                                "Back",
                                 style: TextStyle(color: Colors.white),
                               ),
                               color: Colors.purple[800],
@@ -685,9 +691,10 @@ class _SignUpRPState extends State<SignUpRP> {
                           //backgroundImage: NetworkImage(""),
                         ),
                         onTap: () {
-                          String value = uploadToStorageImage("testProfile");
+                          String value =
+                              uploadToStorageImage(_resourcePerson.name);
                           print(value);
-                          if (value.isNotEmpty) {
+                          if (value == 'success') {
                             setState(() {
                               _checkColor = Colors.green;
                             });
@@ -718,7 +725,8 @@ class _SignUpRPState extends State<SignUpRP> {
                           //backgroundImage: NetworkImage(""),
                         ),
                         onTap: () {
-                          String value1 = uploadToStorageResume("testResume");
+                          String value1 =
+                              uploadToStorageResume(_resourcePerson.name);
                           print(value1);
                           if (value1.toLowerCase() == "successresume") {
                             setState(() {
@@ -726,6 +734,22 @@ class _SignUpRPState extends State<SignUpRP> {
                             });
                           }
                         },
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            side: BorderSide(color: Colors.black)),
+                        onPressed: () async {
+                          _showSocialDialog(context);
+                        },
+                        child: Text(
+                          "Click here to verify the upload",
+                          style: TextStyle(color: Colors.purple[800]),
+                        ),
+                        color: Colors.transparent,
                       ),
                       SizedBox(
                         height: 20.0,
@@ -750,6 +774,9 @@ class _SignUpRPState extends State<SignUpRP> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
                       TextField(
                         controller: linkedIn,
                         decoration: InputDecoration(
@@ -760,28 +787,47 @@ class _SignUpRPState extends State<SignUpRP> {
                       SizedBox(
                         height: 40.0,
                       ),
-                      RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide(color: Colors.black)),
-                        onPressed: () async {
-                          if (linkedIn.text.isEmpty) {
-                            showAlertDialog(context);
-                          } else {
-                            _resourcePerson.linkedIn = linkedIn.text;
-                            print("Calling createUser");
-                            String result = await createUser(_resourcePerson);
-                            print(result);
-                            if (result.toLowerCase() == "success") {
-                              showResultDialog(context);
-                            }
-                          }
-                        },
-                        child: Text(
-                          "Next",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        color: Colors.purple[800],
+                      Row(
+                        children: [
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                side: BorderSide(color: Colors.black)),
+                            onPressed: () async {
+                              if (linkedIn.text.isEmpty) {
+                                showAlertDialog(context);
+                              } else {
+                                _resourcePerson.linkedIn = linkedIn.text;
+                                print("Calling createUser");
+                                String result =
+                                    await createUser(_resourcePerson);
+                                print(result);
+                                if (result.toLowerCase() == "success") {
+                                  showResultDialog(context);
+                                }
+                              }
+                            },
+                            child: Text(
+                              "Next",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.purple[800],
+                          ),
+                          SizedBox(width: 10.0),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                side: BorderSide(color: Colors.black)),
+                            onPressed: () async {
+                              _showPreferenceDialog(context);
+                            },
+                            child: Text(
+                              "Back",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.purple[800],
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -1125,9 +1171,9 @@ void uploadResume({@required Function(File file) onSelected}) {
 }
 
 String uploadToStorageImage(String name) {
-  final dateTime = DateTime.now().month.toString();
+  final dateTime = DateTime.now();
   final userId = name;
-  final path = '$dateTime/$userId';
+  final path = '$userId/$dateTime';
   print(path);
   uploadImage(
     onSelected: (file) {
@@ -1135,17 +1181,22 @@ String uploadToStorageImage(String name) {
           .storage()
           .refFromURL('gs://alt-hosting.appspot.com/')
           .child(path)
-          .put(file);
+          .put(file)
+          .future
+          .then((_) {
+        print("Photo Upload Success");
+        _checkColor = Colors.green;
+      });
     },
   );
   return path;
 }
 
 String uploadToStorageResume(String name) {
-  final dateTime = DateTime.now().month.toString();
+  final dateTime = DateTime.now();
   final userId = name;
-  final path = '$dateTime/$userId';
-  print(path);
+  final path = '$userId/$dateTime';
+  //print(path);
   uploadResume(
     onSelected: (file) {
       fb
@@ -1155,7 +1206,8 @@ String uploadToStorageResume(String name) {
           .put(file)
           .future
           .then((_) {
-        return null;
+        print("File Upload Success");
+        _checkColor1 = Colors.green;
       });
     },
   );

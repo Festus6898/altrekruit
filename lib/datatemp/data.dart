@@ -18,8 +18,15 @@ final List<String> subDomainDrop = [
   'Graphic Designer',
   'Cloud Architect',
   'AI/ML Architect',
-  'VR/AR Developer'
+  'VR/AR Developer',
+  'tax',
+  'audit',
+  'accounting',
+  'risk & compliance',
+  'magagement consulting',
+  'financal advisory'
 ];
+
 final List<String> skillSet = [
   'HTML',
   'CSS',
@@ -36,13 +43,13 @@ final List<ResourcePerson> previews = [
     name: 'Meimozhi',
     imageUrl: Assets.user1,
     color: Colors.orange,
-    designation: 'Product Head',
+    designation: 'Digital Marketing Head',
   ),
   ResourcePerson(
     name: 'Manimozhi',
     imageUrl: Assets.user2,
     color: Colors.red,
-    designation: 'Technical Head',
+    designation: 'Technical Developer',
   ),
   ResourcePerson(
     name: 'Karthika',
@@ -54,13 +61,13 @@ final List<ResourcePerson> previews = [
     name: 'Mohan Kumaar',
     imageUrl: Assets.user4,
     color: Colors.lightBlueAccent,
-    designation: 'Product Manager',
+    designation: 'Finance Manager',
   ),
   ResourcePerson(
-    name: 'Festus',
+    name: 'Ragul',
     imageUrl: Assets.user5,
     color: Colors.green,
-    designation: 'Project Manager',
+    designation: 'Web Designer',
   ),
 ];
 
