@@ -91,20 +91,20 @@ class _CustomAppBarDesktop extends StatelessWidget {
                 _AppBarButton(
                   title: 'Consult',
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResourceDisplayScreen()),
-                    );
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                          builder: (context) => ResourceDisplayScreen()),
+//                    );
                   },
                 ),
                 _AppBarButton(
                   title: 'AI Portal',
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TestScreen()),
-                    );
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(builder: (context) => TestScreen()),
+//                    );
                   },
                 ),
                 _AppBarButton(
@@ -182,7 +182,7 @@ class _AppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: Colors.green,
+      color: Colors.transparent,
       hoverColor: Colors.deepPurple,
       onPressed: onTap,
       child: AbsorbPointer(
