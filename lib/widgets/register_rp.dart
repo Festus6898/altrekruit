@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:html';
+import 'package:flutter/services.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mera_app/models/resourceperson.dart';
@@ -7,7 +8,7 @@ import 'package:mera_app/screens/screens.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase/firebase.dart' as fb;
 import 'package:mera_app/datatemp/data.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUpRP extends StatefulWidget {
   final Function onLogInSelected;
@@ -28,11 +29,12 @@ class _SignUpRPState extends State<SignUpRP> {
   var _resourcePerson = ResourcePersonModel();
   var _categoriesIndustryDrop = List<DropdownMenuItem>();
   var _categoriesSubDomainDropIT = List<DropdownMenuItem>();
-  var _selectedIndustry;
-  var _selectedDomain;
   var _selectedSkill1;
   var _selectedSkill2;
   var _selectedSkill3;
+  var _skill1 = TextEditingController();
+  var _skill2 = TextEditingController();
+  var _skill3 = TextEditingController();
   var name = TextEditingController();
   var email = TextEditingController();
   var mobile = TextEditingController();
@@ -115,33 +117,134 @@ class _SignUpRPState extends State<SignUpRP> {
   }
 
   showResultDialog(BuildContext context) {
-    // Create button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SuccessScreen()),
-        );
-      },
-    );
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            child: Container(
+                height: 150.0,
+                width: 400.0,
+                child: Column(
+                  children: [
+                    Text(
+                      "You have been successfully added to the AltReKruit",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    RaisedButton(
+                      child: Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      color: Colors.purple[800],
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SuccessScreen()),
+                        );
+                      },
+                    ),
+                  ],
+                )),
+          );
+        });
+  }
 
-    // Create AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Message"),
-      content: Text("User Created Successfully"),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+  _showAlert(BuildContext context, String msg) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if (msg == 'mail') {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Container(
+                  height: 150.0,
+                  width: 400.0,
+                  child: Column(
+                    children: [
+                      Text(
+                        "Warning",
+                        style: TextStyle(
+                          color: Colors.purple[800],
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        "Enter a Valid Email address",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      RaisedButton(
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.purple[800],
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  )),
+            );
+          } else {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Container(
+                  height: 150.0,
+                  width: 400.0,
+                  child: Column(
+                    children: [
+                      Text(
+                        "Warning",
+                        style: TextStyle(
+                          color: Colors.purple[800],
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        "Enter all the mandatory fields",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      RaisedButton(
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.purple[800],
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  )),
+            );
+          }
+        });
   }
 
   _showOccupationDialog(BuildContext context) {
@@ -199,7 +302,7 @@ class _SignUpRPState extends State<SignUpRP> {
                         controller: designation,
                         decoration: InputDecoration(
                           labelText: "Current Designation",
-                          hintText: "Enter Designation",
+                          hintText: "Eg. Project Engineer",
                         ),
                       ),
                       SizedBox(
@@ -229,7 +332,7 @@ class _SignUpRPState extends State<SignUpRP> {
                         controller: currCompany,
                         decoration: InputDecoration(
                           labelText: "Current Company",
-                          hintText: "Enter Company",
+                          hintText: "Eg. Wipro Limited",
                         ),
                       ),
                       SizedBox(
@@ -238,19 +341,20 @@ class _SignUpRPState extends State<SignUpRP> {
                       Row(
                         children: [
                           Text(
-                            "Previous Workplace",
+                            "Referral Code",
                             style: TextStyle(
                               color: Colors.purple[800],
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
+                          SizedBox(width: 5.0),
                           Text(
-                            "*",
+                            "(if any)",
                             style: TextStyle(
                               color: Colors.red[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],
@@ -258,75 +362,11 @@ class _SignUpRPState extends State<SignUpRP> {
                       TextField(
                         controller: preCompany,
                         decoration: InputDecoration(
-                          labelText: "Previous Company",
-                          hintText: "Enter Company",
+                          labelText: "Referral",
                         ),
                       ),
                       SizedBox(
                         height: 20.0,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Industrial Category",
-                            style: TextStyle(
-                              color: Colors.purple[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            "*",
-                            style: TextStyle(
-                              color: Colors.red[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      DropdownButtonFormField(
-                        value: _selectedIndustry,
-                        items: _categoriesIndustryDrop,
-                        hint: Text("Select a category"),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedIndustry = value;
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Domain Expertise",
-                            style: TextStyle(
-                              color: Colors.purple[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            "*",
-                            style: TextStyle(
-                              color: Colors.red[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      DropdownButtonFormField(
-                        value: _selectedDomain,
-                        items: _categoriesSubDomainDropIT,
-                        hint: Text("Select your Domain"),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedDomain = value;
-                          });
-                        },
                       ),
                       SizedBox(
                         height: 30.0,
@@ -359,30 +399,29 @@ class _SignUpRPState extends State<SignUpRP> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                                 side: BorderSide(color: Colors.black)),
-                            onPressed: () {
+                            onPressed: () async {
                               if (designation.text.isEmpty ||
-                                  email.text.isEmpty ||
-                                  currCompany.text.isEmpty ||
-                                  _selectedIndustry.toString().isEmpty ||
-                                  _selectedDomain.toString().isEmpty) {
-                                return showAlertDialog(context);
+                                  currCompany.text.isEmpty) {
+                                return _showAlert(context, 'empty');
                               } else {
                                 _resourcePerson.designation = designation.text;
                                 _resourcePerson.currCompany = currCompany.text;
                                 _resourcePerson.prevCompany = preCompany.text;
-                                _resourcePerson.industry = _selectedIndustry;
-                                _resourcePerson.subDomain = _selectedDomain;
+                                _resourcePerson.industry = "";
+                                _resourcePerson.subDomain = "";
+
                                 print(_resourcePerson.designation +
                                     "||" +
                                     _resourcePerson.currCompany +
                                     "||" +
-                                    _resourcePerson.prevCompany +
-                                    "||" +
-                                    _resourcePerson.subDomain +
-                                    "||" +
-                                    _resourcePerson.industry);
-                                Navigator.pop(context);
-                                return _showPreferenceDialog(context);
+                                    _resourcePerson.prevCompany);
+                                print("Calling createUser");
+                                String result =
+                                    await createUser(_resourcePerson);
+                                print(result);
+                                if (result.toLowerCase() == "success") {
+                                  showResultDialog(context);
+                                }
                               }
                             },
                             child: Text(
@@ -399,442 +438,6 @@ class _SignUpRPState extends State<SignUpRP> {
               ),
             ),
           );
-        });
-  }
-
-  _showPreferenceDialog(BuildContext context) {
-    List<String> skills = _dataProvince.cast<String>();
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return StatefulBuilder(
-          // StatefulBuilder
-          builder: (context, setState) {
-            return Dialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)), //this right here
-              child: Container(
-                height: 500.0,
-                width: 500.0,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Valuating the Preferences",
-                          style: TextStyle(
-                            color: Colors.purple[800],
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40.0,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "Key Skills",
-                              style: TextStyle(
-                                color: Colors.purple[800],
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(
-                                color: Colors.red[800],
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        DropDownField(
-                          onValueChanged: (dynamic value) {
-                            _selectedSkill1 = value;
-                          },
-                          itemsVisibleInDropdown: 2,
-                          value: _selectedSkill1,
-                          required: false,
-                          hintText: 'Select Skill',
-                          labelText: '1st Skill',
-                          items: skills.toList(),
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        DropDownField(
-                          itemsVisibleInDropdown: 2,
-                          onValueChanged: (dynamic value) {
-                            _selectedSkill2 = value;
-                          },
-                          value: _selectedSkill2,
-                          required: false,
-                          hintText: 'Select Skill',
-                          labelText: '2nd Skill',
-                          items: skills.toList(),
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        DropDownField(
-                          onValueChanged: (dynamic value) {
-                            _selectedSkill3 = value;
-                          },
-                          itemsVisibleInDropdown: 2,
-                          value: _selectedSkill3,
-                          required: false,
-                          hintText: 'Select Skill',
-                          labelText: '3rd Skill',
-                          items: skills.toList(),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                          "Would you like to give carrier advice or webinar to students in future?",
-                          style: TextStyle(
-                            color: Colors.purple[800],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "*",
-                          style: TextStyle(
-                            color: Colors.red[800],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        RadioListTile(
-                          value: 1,
-                          groupValue: testRadio,
-                          title: Text("Yes"),
-                          onChanged: (int value) {
-                            setState(() {
-                              testRadio = value;
-                            });
-                          },
-                        ),
-                        RadioListTile(
-                          value: 2,
-                          groupValue: testRadio,
-                          title: Text("No"),
-                          onChanged: (int value) {
-                            setState(() {
-                              testRadio = value;
-                              print(testRadio);
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                          "Is Referral System allowed in your workplace and you are willing to refer people?",
-                          style: TextStyle(
-                            color: Colors.purple[800],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "*",
-                          style: TextStyle(
-                            color: Colors.red[800],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        RadioListTile(
-                          value: 1,
-                          groupValue: testRadio1,
-                          title: Text("Yes"),
-                          onChanged: (int value) {
-                            setState(() {
-                              testRadio1 = value;
-                            });
-                          },
-                        ),
-                        RadioListTile(
-                          value: 2,
-                          groupValue: testRadio1,
-                          title: Text("No"),
-                          onChanged: (int value) {
-                            setState(() {
-                              testRadio1 = value;
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  side: BorderSide(color: Colors.black)),
-                              onPressed: () {
-                                _showOccupationDialog(context);
-                              },
-                              child: Text(
-                                "Back",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              color: Colors.purple[800],
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  side: BorderSide(color: Colors.black)),
-                              onPressed: () {
-                                if (_selectedSkill1 == _selectedSkill2 ||
-                                    _selectedSkill1 == _selectedSkill3 ||
-                                    _selectedSkill2 == _selectedSkill3) {
-                                  showAlertDialog(context);
-                                } else {
-                                  Navigator.pop(context);
-                                  _showSocialDialog(context);
-                                  _resourcePerson.firstSkill = _selectedSkill1;
-                                  _resourcePerson.secondSkill = _selectedSkill2;
-                                  _resourcePerson.thirdSkill = _selectedSkill3;
-                                  if (testRadio == 1)
-                                    _resourcePerson.carrier = 1;
-                                  else
-                                    _resourcePerson.carrier = 0;
-                                  if (testRadio1 == 1)
-                                    _resourcePerson.referral = 1;
-                                  else
-                                    _resourcePerson.referral = 0;
-                                  print("Carrier: " +
-                                      _resourcePerson.carrier.toString() +
-                                      " Referral: " +
-                                      _resourcePerson.referral.toString());
-                                }
-                              },
-                              child: Text(
-                                "Next",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              color: Colors.purple[800],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  _showSocialDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return Dialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)), //this right here
-              child: Container(
-                height: 500,
-                width: 500,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Profile Picture",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      GestureDetector(
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          child: Icon(
-                            Icons.people_alt_rounded,
-                          ),
-                          backgroundColor: _checkColor,
-                          //backgroundImage: NetworkImage(""),
-                        ),
-                        onTap: () {
-                          String value =
-                              uploadToStorageImage(_resourcePerson.name);
-                          print(value);
-                          if (value == 'success') {
-                            setState(() {
-                              _checkColor = Colors.green;
-                            });
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                        "Resume",
-                        style: TextStyle(
-                          color: Colors.purple[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      GestureDetector(
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          child: Icon(
-                            Icons.people_alt_rounded,
-                          ),
-                          backgroundColor: _checkColor1,
-                          //backgroundImage: NetworkImage(""),
-                        ),
-                        onTap: () {
-                          String value1 =
-                              uploadToStorageResume(_resourcePerson.name);
-                          print(value1);
-                          if (value1.toLowerCase() == "successresume") {
-                            setState(() {
-                              _checkColor1 = Colors.green;
-                            });
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide(color: Colors.black)),
-                        onPressed: () async {
-                          _showSocialDialog(context);
-                        },
-                        child: Text(
-                          "Click here to verify the upload",
-                          style: TextStyle(color: Colors.purple[800]),
-                        ),
-                        color: Colors.transparent,
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "LinkedIn Profile",
-                            style: TextStyle(
-                              color: Colors.purple[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            "*",
-                            style: TextStyle(
-                              color: Colors.red[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      TextField(
-                        controller: linkedIn,
-                        decoration: InputDecoration(
-                          labelText: "LinkedIN",
-                          hintText: "Enter LinkedIN URL",
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40.0,
-                      ),
-                      Row(
-                        children: [
-                          RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.black)),
-                            onPressed: () async {
-                              if (linkedIn.text.isEmpty) {
-                                showAlertDialog(context);
-                              } else {
-                                _resourcePerson.linkedIn = linkedIn.text;
-                                print("Calling createUser");
-                                String result =
-                                    await createUser(_resourcePerson);
-                                print(result);
-                                if (result.toLowerCase() == "success") {
-                                  showResultDialog(context);
-                                }
-                              }
-                            },
-                            child: Text(
-                              "Next",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            color: Colors.purple[800],
-                          ),
-                          SizedBox(width: 10.0),
-                          RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.black)),
-                            onPressed: () async {
-                              _showPreferenceDialog(context);
-                            },
-                            child: Text(
-                              "Back",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            color: Colors.purple[800],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          });
         });
   }
 
@@ -1024,6 +627,9 @@ class _SignUpRPState extends State<SignUpRP> {
                           color: Colors.black,
                         ),
                         keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
                           fillColor: Colors.white,
@@ -1060,11 +666,15 @@ class _SignUpRPState extends State<SignUpRP> {
                         child: Text("Go Ahead".toUpperCase()),
                         color: Colors.white,
                         onPressed: () {
+                          testData = EmailValidator.validate(email.text);
+                          print(testData);
                           if (name.text.isEmpty ||
                               email.text.isEmpty ||
                               mobile.text.isEmpty ||
                               pwd.text.isEmpty) {
-                            return showAlertDialog(context);
+                            return _showAlert(context, 'empty');
+                          } else if (testData == false) {
+                            return _showAlert(context, 'mail');
                           } else {
                             _resourcePerson.name = name.text;
                             _resourcePerson.email = email.text;
@@ -1224,6 +834,7 @@ Future<String> createUser(ResourcePersonModel resource) async {
   final response =
       await http.post(Uri.encodeFull(apiUrl), body: body, headers: headers);
   print(response.statusCode);
+  print(response.body);
   if (response.statusCode == 200)
     return "Success";
   else

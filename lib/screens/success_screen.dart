@@ -27,7 +27,7 @@ class _SuccessScreenMobile extends StatelessWidget {
                 "You have become a part of ALTREKRUIT Family!!",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 48,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -40,7 +40,7 @@ class _SuccessScreenMobile extends StatelessWidget {
                 "The Market launch will be done on January 2021",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 36,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -53,7 +53,7 @@ class _SuccessScreenMobile extends StatelessWidget {
                 "Hope We Provide the best Environment",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -72,7 +72,7 @@ class _SuccessScreenMobile extends StatelessWidget {
                 );
               },
               child: Text(
-                "Click here to verify the upload",
+                "Click here to Leave",
                 style: TextStyle(color: Colors.purple[800]),
               ),
               color: Colors.transparent,
